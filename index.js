@@ -90,3 +90,5 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
         
     };
 });
+
+console.log("Loaded index.js");
