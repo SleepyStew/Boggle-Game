@@ -31,7 +31,6 @@ var currnet_location;
 var location_hist = [];
 
 function tile_click(element, i) {
-    console.log(location_hist)
     if (location_hist.length == 0) {
         currnet_location = int_to_x_and_y_map[i];
         if (element.style.backgroundColor == "rgb(49, 165, 247)") {
