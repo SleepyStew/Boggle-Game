@@ -41,6 +41,7 @@ function tile_click(element, i) {
             location_hist.push(currnet_location);
             current_word += element.innerText;
             console.log(currnet_location);
+            console.log(current_word);
         };
         current_word += element.innerText;
     } else {
@@ -54,6 +55,7 @@ function tile_click(element, i) {
                 currnet_location = location_hist[location_hist.length - 1];
                 // remove the last letter from current_word
                 current_word = current_word.substring(0, current_word.length - 1);
+                console.log(current_word);
             };
         } else {
             if (Math.abs(currnet_location['y'] - int_to_x_and_y_map[i]['y']) < 2 && Math.abs(currnet_location['x'] - int_to_x_and_y_map[i]['x']) < 2) {
@@ -62,6 +64,7 @@ function tile_click(element, i) {
                 element.style.backgroundColor = "rgb(49, 165, 247)";
                 current_word += element.innerText;
                 console.log(currnet_location);
+                console.log(current_word);
             };
         };
     };
