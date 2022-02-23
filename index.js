@@ -49,9 +49,9 @@ function tile_click(element, i) {
 
     for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
         if (document.getElementsByTagName("td")[i].innerText != board[i]['letter'] || document.getElementsByTagName("td")[i].style.backgroundColor != board[i]['background']) {
-            document.getElementsByClassName("cheating")[0].style.visibility = "visible";
             document.getElementsByClassName("board")[0].style.visibility = "hidden";
-            setTimeout(function(){ location.reload(); }, 5000);
+            document.getElementsByClassName("cheating")[0].style.visibility = "visible";
+            clickable = false;
         };
     };   
 
