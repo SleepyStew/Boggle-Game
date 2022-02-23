@@ -1,18 +1,4 @@
-// import a list of words from a file seperated by lines
-function get_words() {
-    var words = [];
-    var file = new XMLHttpRequest();
-    file.open("GET", "words.txt", false);
-    file.onreadystatechange = function() {
-        if (file.readyState === 4) {
-            if (file.status === 200 || file.status == 0) {
-                words = file.responseText.split("\n");
-            };
-        };
-    };
-    file.send(null);
-    return words;
-};
+import {word_list_js} from "./words.js";
 
 function get_location(int) {
     return({'x': int % 5 + 1, 'y': Math.floor(int / 5) + 1})
@@ -21,7 +7,7 @@ function get_location(int) {
 var currnet_location;
 var elements_selected = [];
 var location_hist = [];
-var word_list = get_words();
+var word_list = word_list_js.split(" ");
 var found_words = [];
 
 function tile_click(element, i) {
@@ -78,7 +64,7 @@ var clickable = true;
 document.getElementsByClassName("btn-check")[0].addEventListener("click", function() {
     if (clickable == true) {
         clickable = false;
-        if (word_list.includes(current_word.toLowerCase() + "\r") && !found_words.includes(current_word.toLowerCase()) && current_word.length > 2) {
+        if (word_list.includes(current_word.toLowerCase()) && !found_words.includes(current_word.toLowerCase()) && current_word.length > 2) {
             console.log("Valid Word")
             found_words.push(current_word.toLowerCase());
             for (var i = 0; i < elements_selected.length; i++) {
@@ -105,5 +91,5 @@ document.getElementsByClassName("btn-reset")[0].addEventListener("click", functi
     location.reload();
 });
 
-console.log(word_list);
+console.log(word_list.length);
 console.log("Loaded index.js");
