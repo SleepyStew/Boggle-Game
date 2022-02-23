@@ -51,24 +51,9 @@ var found_words = [];
 function tile_click(element, i) {
     if (location_hist.length == 0 && element.style.backgroundColor != "rgb(48, 219, 100)") {
         currnet_location = int_to_x_and_y_map[i];
-<<<<<<< HEAD
         element.style.backgroundColor = "rgb(49, 165, 247)";
         location_hist.push(currnet_location);
         elements_selected.push(element);
-=======
-        if (element.style.backgroundColor == "rgb(49, 165, 247)") {
-            element.style.backgroundColor = "white";
-            location_hist.pop();
-            current_word = current_word.substring(0, current_word.length - 1);
-            console.log(currnet_word);
-        } else {
-            element.style.backgroundColor = "rgb(49, 165, 247)";
-            location_hist.push(currnet_location);
-            current_word += element.innerText;
-            console.log(currnet_location);
-            console.log(current_word);
-        };
->>>>>>> 264343e596bd200e9bdf3b5498930f540fd292f4
         current_word += element.innerText;
         console.log(currnet_location);
         console.log(current_word);
@@ -131,12 +116,9 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
             };
         }, 200);
     };
-<<<<<<< HEAD
     location_hist = [];
     current_word = "";
     setTimeout(function(){ elements_selected = []; }, 250);
-=======
->>>>>>> 264343e596bd200e9bdf3b5498930f540fd292f4
 });
 
 console.log("Loaded index.js");
