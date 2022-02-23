@@ -121,4 +121,8 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
     setTimeout(function(){ elements_selected = []; }, 250);
 });
 
+document.getElementsByClassName("btn-reset")[0].addEventListener("click", function() {
+    location.reload();
+});
+
 console.log("Loaded index.js");

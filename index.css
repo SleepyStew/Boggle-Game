@@ -35,3 +35,11 @@ body {
     height: 10%;    
     font-size: 20px;
 }
+
+.btn-reset {
+    background-color: white;
+    border-radius: 5px;
+    width: 100px;
+    height: 4%;
+    font-size: 20px;
+}
