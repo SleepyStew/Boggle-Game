@@ -73,28 +73,32 @@ for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
     document.getElementsByTagName("td")[i].addEventListener("click", tile_click.bind(null, document.getElementsByTagName("td")[i], i), false);
 };
 
+var clickable = true;
 
 document.getElementsByClassName("btn-check")[0].addEventListener("click", function() {
-    if (word_list.includes(current_word.toLowerCase() + "\r") && !found_words.includes(current_word.toLowerCase()) && current_word.length > 2) {
-        console.log("Valid Word")
-        found_words.push(current_word.toLowerCase());
-        for (var i = 0; i < elements_selected.length; i++) {
-            elements_selected[i].style.backgroundColor = "#30db64";
-        };
-    } else {
-        console.log("Invalid Word")
-        for (var i = 0; i < elements_selected.length; i++) {
-            elements_selected[i].style.backgroundColor = "#d14747";
-        };
-        setTimeout(function(){ 
+    if (clickable == true) {
+        clickable = false;
+        if (word_list.includes(current_word.toLowerCase() + "\r") && !found_words.includes(current_word.toLowerCase()) && current_word.length > 2) {
+            console.log("Valid Word")
+            found_words.push(current_word.toLowerCase());
             for (var i = 0; i < elements_selected.length; i++) {
-                elements_selected[i].style.backgroundColor = "white";
+                elements_selected[i].style.backgroundColor = "#30db64";
             };
-        }, 200);
+        } else {
+            console.log("Invalid Word")
+            for (var i = 0; i < elements_selected.length; i++) {
+                elements_selected[i].style.backgroundColor = "#d14747";
+            };
+            setTimeout(function(){ 
+                for (var i = 0; i < elements_selected.length; i++) {
+                    elements_selected[i].style.backgroundColor = "white";
+                };
+            }, 200);
+        };
+        location_hist = [];
+        current_word = "";
+        setTimeout(function(){ elements_selected = []; clickable = true; }, 200);
     };
-    location_hist = [];
-    current_word = "";
-    setTimeout(function(){ elements_selected = []; }, 200);
 });
 
 document.getElementsByClassName("btn-reset")[0].addEventListener("click", function() {
