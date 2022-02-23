@@ -78,14 +78,6 @@ var clickable = true;
 document.getElementsByClassName("btn-check")[0].addEventListener("click", function() {
     if (clickable == true) {
         clickable = false;
-        console.log(word_list.includes(current_word.toLowerCase() + "\r") && !found_words.includes(current_word.toLowerCase()) && current_word.length > 2);
-        console.log(word_list.includes(current_word.toLowerCase() + "\r"));
-        console.log(word_list.includes(current_word.toLowerCase() + "\r" || word_list.includes(current_word.toLowerCase())));
-        console.log(!found_words.includes(current_word.toLowerCase()));
-        console.log(current_word.length > 2);
-
-
-
         if (word_list.includes(current_word.toLowerCase() + "\r") && !found_words.includes(current_word.toLowerCase()) && current_word.length > 2) {
             console.log("Valid Word")
             found_words.push(current_word.toLowerCase());
@@ -113,4 +105,5 @@ document.getElementsByClassName("btn-reset")[0].addEventListener("click", functi
     location.reload();
 });
 
+console.log(word_list);
 console.log("Loaded index.js");
