@@ -10,6 +10,7 @@ var location_hist = [];
 var word_list = word_list_js.split(" ");
 var found_words = [];
 const correct_sound = new Audio('correct.mp3');
+var board = [];
 
 function tile_click(element, i) {
     if (location_hist.length == 0 && element.style.backgroundColor != "rgb(48, 219, 100)") {
@@ -65,6 +66,15 @@ var clickable = true;
 document.getElementsByClassName("btn-check")[0].addEventListener("click", function() {
     if (clickable == true) {
         clickable = false;
+
+        for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
+            if (document.getElementsByTagName("td")[i].innerText != board[i]) {
+                document.getElementsByClassName("board")[0].style.visibility = "hidden";
+                document.getElementsByClassName("cheating")[0].style.visibility = "visible";
+                setTimeout(function(){ location.reload(); }, 5000);
+            };
+        };        
+
         if (word_list.includes(current_word.toLowerCase()) && !found_words.includes(current_word.toLowerCase()) && current_word.length > 2) {
             console.log("Valid Word")
             found_words.push(current_word.toLowerCase());
@@ -92,6 +102,10 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
 document.getElementsByClassName("btn-reset")[0].addEventListener("click", function() {
     location.reload();
 });
+
+for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
+    board.push(document.getElementsByTagName("td")[i].innerText);
+};
 
 console.log(word_list.length);
 console.log("Loaded index.js");
