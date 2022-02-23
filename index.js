@@ -47,8 +47,8 @@ var board = {
 
 function tile_click(element, i) {
 
-    for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
-        if (document.getElementsByTagName("td")[i].innerText != board[i]['letter'] || document.getElementsByTagName("td")[i].style.backgroundColor != board[i]['background']) {
+    for (var cheati = 0; cheati < document.getElementsByTagName("td").length; cheati++) {
+        if (document.getElementsByTagName("td")[cheati].innerText != board[cheati]['letter'] || document.getElementsByTagName("td")[cheati].style.backgroundColor != board[cheati]['background']) {
             document.getElementsByClassName("board")[0].style.visibility = "hidden";
             document.getElementsByClassName("cheating")[0].style.visibility = "visible";
             clickable = false;
