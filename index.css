@@ -22,7 +22,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    visibility: hidden;
+    visibility: visible;
 }
 
 .btn-check {
@@ -56,5 +56,5 @@ body {
     height: 20%;    
     font-size: 20px;
     text-align: center;
-    visibility: visible;
+    visibility: hidden;
 }
