@@ -46,6 +46,15 @@ var board = {
 };
 
 function tile_click(element, i) {
+
+    for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
+        if (document.getElementsByTagName("td")[i].innerText != board[i]['letter'] || document.getElementsByTagName("td")[i].style.backgroundColor != board[i]['background']) {
+            document.getElementsByClassName("cheating")[0].style.visibility = "visible";
+            document.getElementsByClassName("board")[0].style.visibility = "hidden";
+            setTimeout(function(){ location.reload(); }, 5000);
+        };
+    };   
+
     if (location_hist.length == 0 && element.style.backgroundColor != "rgb(48, 219, 100)") {
         currnet_location = get_location(i);
         element.style.backgroundColor = "rgb(49, 165, 247)";
@@ -86,29 +95,11 @@ function tile_click(element, i) {
 var dice = ["AAAFRS","AAEEEE","AAFIRS","ADENNN","AEEEEM","AEEGMU","AEGMNN","AFIRSY","BJKQXZ","CCENST","CEIILT","CEILPT","CEIPST","DDHNOT","DHHLOR","DHLNOR","DHLNOR","EIIITT","EMOTTT","ENSSSU","FIPRSY","GORRVW","IPRRRY","NOOTUW","OOOTTU"];
 var current_word = ""
 
-for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
-    let random = Math.ceil(Math.random() * 6);
-    let random_letter = dice[i].substring(random - 1, random)
-    document.getElementsByTagName("td")[i].innerText = random_letter;
-    document.getElementsByTagName("td")[i].style = "background-color: white;";
-    
-    // check if element is clicked
-    document.getElementsByTagName("td")[i].addEventListener("click", tile_click.bind(null, document.getElementsByTagName("td")[i], i), false);
-};
-
 var clickable = true;
 
 document.getElementsByClassName("btn-check")[0].addEventListener("click", function() {
     if (clickable == true) {
-        clickable = false;
-
-        for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
-            if (document.getElementsByTagName("td")[i].innerText != board[i]['letter'] || document.getElementsByTagName("td")[i].style.backgroundColor != board[i]['background']) {
-                document.getElementsByClassName("board")[0].style.visibility = "hidden";
-                document.getElementsByClassName("cheating")[0].style.visibility = "visible";
-                setTimeout(function(){ location.reload(); }, 5000);
-            };
-        };        
+        clickable = false;     
 
         if (word_list.includes(current_word.toLowerCase()) && !found_words.includes(current_word.toLowerCase()) && current_word.length > 2) {
             console.log("Valid Word")
@@ -143,12 +134,20 @@ document.getElementsByClassName("btn-play")[0].addEventListener("click", functio
     document.getElementsByClassName("introduction")[0].style.visibility = "hidden";
     document.getElementsByClassName("btn-play")[0].style.visibility = "hidden";
     document.getElementsByClassName("board")[0].style.visibility = "visible";
-});
 
-for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
-    board[i]['letter'] = document.getElementsByTagName("td")[i].innerText;
-    board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
-};
+    for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
+        let random = Math.ceil(Math.random() * 6);
+        let random_letter = dice[i].substring(random - 1, random)
+        document.getElementsByTagName("td")[i].innerText = random_letter;
+        document.getElementsByTagName("td")[i].style.backgroundColor = "white";
+        
+        // check if element is clicked
+        document.getElementsByTagName("td")[i].addEventListener("click", tile_click.bind(null, document.getElementsByTagName("td")[i], i), false);
+
+        board[i]['letter'] = document.getElementsByTagName("td")[i].innerHTML;
+        board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
+    };
+});
 
 console.log("Loaded " + word_list.length + " words");
 console.log("Loaded index.js");
