@@ -46,20 +46,6 @@ body {
     font-size: 20px;
 }
 
-.cheating {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #d14747;
-    border-radius: 5px;
-    width: 30%;
-    height: 20%;    
-    font-size: 20px;
-    text-align: center;
-    visibility: hidden;
-}
-
 .introduction {
     position: absolute;
     top: 50%;
