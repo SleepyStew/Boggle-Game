@@ -14,32 +14,8 @@ function get_words() {
     return words;
 };
 
-const int_to_x_and_y_map = {
-    0: {"x": 1, "y": 1},
-    1: {"x": 2, "y": 1},
-    2: {"x": 3, "y": 1},
-    3: {"x": 4, "y": 1},
-    4: {"x": 5, "y": 1},
-    5: {"x": 1, "y": 2},
-    6: {"x": 2, "y": 2},
-    7: {"x": 3, "y": 2},
-    8: {"x": 4, "y": 2},
-    9: {"x": 5, "y": 2},
-    10: {"x": 1, "y": 3},
-    11: {"x": 2, "y": 3},
-    12: {"x": 3, "y": 3},
-    13: {"x": 4, "y": 3},
-    14: {"x": 5, "y": 3},
-    15: {"x": 1, "y": 4},
-    16: {"x": 2, "y": 4},
-    17: {"x": 3, "y": 4},
-    18: {"x": 4, "y": 4},
-    19: {"x": 5, "y": 4},
-    20: {"x": 1, "y": 5},
-    21: {"x": 2, "y": 5},
-    22: {"x": 3, "y": 5},
-    23: {"x": 4, "y": 5},
-    24: {"x": 5, "y": 5}
+function get_location(int) {
+    return({'x': int % 5 + 1, 'y': Math.floor(int / 5) + 1})
 }
 
 var currnet_location;
@@ -50,7 +26,7 @@ var found_words = [];
 
 function tile_click(element, i) {
     if (location_hist.length == 0 && element.style.backgroundColor != "rgb(48, 219, 100)") {
-        currnet_location = int_to_x_and_y_map[i];
+        currnet_location = get_location(i);
         element.style.backgroundColor = "rgb(49, 165, 247)";
         location_hist.push(currnet_location);
         elements_selected.push(element);
@@ -59,8 +35,8 @@ function tile_click(element, i) {
         console.log(current_word);
     } else {
         if (element.style.backgroundColor == "rgb(49, 165, 247)") {
-            if (currnet_location['y'] == int_to_x_and_y_map[i]['y'] && currnet_location['x'] == int_to_x_and_y_map[i]['x']) {
-                currnet_location = int_to_x_and_y_map[i];
+            if (currnet_location['y'] == get_location(i)['y'] && currnet_location['x'] == get_location(i)['x']) {
+                currnet_location = get_location(i);
                 element.style.backgroundColor = "white";
                 // remove the last item from location_hist
                 console.log(currnet_location);
@@ -72,8 +48,8 @@ function tile_click(element, i) {
                 console.log(current_word);
             };
         } else if(element.style.backgroundColor != "rgb(48, 219, 100)") {
-            if (Math.abs(currnet_location['y'] - int_to_x_and_y_map[i]['y']) < 2 && Math.abs(currnet_location['x'] - int_to_x_and_y_map[i]['x']) < 2) {
-                currnet_location = int_to_x_and_y_map[i];
+            if (Math.abs(currnet_location['y'] - get_location(i)['y']) < 2 && Math.abs(currnet_location['x'] - get_location(i)['x']) < 2) {
+                currnet_location = get_location(i);
                 location_hist.push(currnet_location);
                 elements_selected.push(element);
                 element.style.backgroundColor = "rgb(49, 165, 247)";
