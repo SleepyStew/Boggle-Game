@@ -1,3 +1,19 @@
+// import a list of words from a file seperated by lines
+function get_words() {
+    var words = [];
+    var file = new XMLHttpRequest();
+    file.open("GET", "words.txt", false);
+    file.onreadystatechange = function() {
+        if (file.readyState === 4) {
+            if (file.status === 200 || file.status == 0) {
+                words = file.responseText.split("\n");
+            };
+        };
+    };
+    file.send(null);
+    return words;
+};
+
 const int_to_x_and_y_map = {
     0: {"x": 1, "y": 1},
     1: {"x": 2, "y": 1},
@@ -27,22 +43,20 @@ const int_to_x_and_y_map = {
 }
 
 var currnet_location;
-
+var elements_selected = [];
 var location_hist = [];
+const word_list = get_words();
+var found_words = [];
 
 function tile_click(element, i) {
-    if (location_hist.length == 0) {
+    if (location_hist.length == 0 && element.style.backgroundColor != "rgb(48, 219, 100)") {
         currnet_location = int_to_x_and_y_map[i];
-        if (element.style.backgroundColor == "rgb(49, 165, 247)") {
-            element.style.backgroundColor = "white";
-            location_hist.pop();
-        } else {
-            element.style.backgroundColor = "rgb(49, 165, 247)";
-            location_hist.push(currnet_location);
-            current_word += element.innerText;
-            console.log(currnet_location);
-        };
+        element.style.backgroundColor = "rgb(49, 165, 247)";
+        location_hist.push(currnet_location);
+        elements_selected.push(element);
         current_word += element.innerText;
+        console.log(currnet_location);
+        console.log(current_word);
     } else {
         if (element.style.backgroundColor == "rgb(49, 165, 247)") {
             if (currnet_location['y'] == int_to_x_and_y_map[i]['y'] && currnet_location['x'] == int_to_x_and_y_map[i]['x']) {
@@ -51,17 +65,21 @@ function tile_click(element, i) {
                 // remove the last item from location_hist
                 console.log(currnet_location);
                 location_hist.pop();
+                elements_selected.pop();
                 currnet_location = location_hist[location_hist.length - 1];
                 // remove the last letter from current_word
                 current_word = current_word.substring(0, current_word.length - 1);
+                console.log(current_word);
             };
-        } else {
+        } else if(element.style.backgroundColor != "rgb(48, 219, 100)") {
             if (Math.abs(currnet_location['y'] - int_to_x_and_y_map[i]['y']) < 2 && Math.abs(currnet_location['x'] - int_to_x_and_y_map[i]['x']) < 2) {
                 currnet_location = int_to_x_and_y_map[i];
                 location_hist.push(currnet_location);
+                elements_selected.push(element);
                 element.style.backgroundColor = "rgb(49, 165, 247)";
                 current_word += element.innerText;
                 console.log(currnet_location);
+                console.log(current_word);
             };
         };
     };
@@ -81,12 +99,26 @@ for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
 
 
 document.getElementsByClassName("btn-check")[0].addEventListener("click", function() {
-    console.log("Button Clicked")
-    for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
-        document.getElementsByTagName("td")[i].style.backgroundColor = "white";
-        current_word = "";
-        // clear location_hist
-        location_hist = [];
-        
+    if (word_list.includes(current_word.toLowerCase() + "\r") && !found_words.includes(current_word.toLowerCase())) {
+        console.log("Valid Word")
+        found_words.push(current_word.toLowerCase());
+        for (var i = 0; i < elements_selected.length; i++) {
+            elements_selected[i].style.backgroundColor = "#30db64";
+        };
+    } else {
+        console.log("Invalid Word")
+        for (var i = 0; i < elements_selected.length; i++) {
+            elements_selected[i].style.backgroundColor = "#d14747";
+        };
+        setTimeout(function(){ 
+            for (var i = 0; i < elements_selected.length; i++) {
+                elements_selected[i].style.backgroundColor = "white";
+            };
+        }, 200);
     };
+    location_hist = [];
+    current_word = "";
+    setTimeout(function(){ elements_selected = []; }, 250);
 });
+
+console.log("Loaded index.js");
