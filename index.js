@@ -21,7 +21,7 @@ function get_location(int) {
 var currnet_location;
 var elements_selected = [];
 var location_hist = [];
-const word_list = get_words();
+var word_list = get_words();
 var found_words = [];
 
 function tile_click(element, i) {
