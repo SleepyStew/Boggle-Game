@@ -4,13 +4,46 @@ function get_location(int) {
     return({'x': int % 5 + 1, 'y': Math.floor(int / 5) + 1})
 }
 
+function update_board() {
+    for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
+        board[i]['letter'] = document.getElementsByTagName("td")[i].innerText;
+        board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
+    };
+}
+
 var currnet_location;
 var elements_selected = [];
 var location_hist = [];
 var word_list = word_list_js.split(" ");
 var found_words = [];
 const correct_sound = new Audio('correct.mp3');
-var board = [];
+var board = {
+    "0": {"letter": "", "background": "white"},
+    "1": {"letter": "", "background": "white"},
+    "2": {"letter": "", "background": "white"},
+    "3": {"letter": "", "background": "white"},
+    "4": {"letter": "", "background": "white"},
+    "5": {"letter": "", "background": "white"},
+    "6": {"letter": "", "background": "white"},
+    "7": {"letter": "", "background": "white"},
+    "8": {"letter": "", "background": "white"},
+    "9": {"letter": "", "background": "white"},
+    "10": {"letter": "", "background": "white"},
+    "11": {"letter": "", "background": "white"},
+    "12": {"letter": "", "background": "white"},
+    "13": {"letter": "", "background": "white"},
+    "14": {"letter": "", "background": "white"},
+    "15": {"letter": "", "background": "white"},
+    "16": {"letter": "", "background": "white"},
+    "17": {"letter": "", "background": "white"},
+    "18": {"letter": "", "background": "white"},
+    "19": {"letter": "", "background": "white"},
+    "20": {"letter": "", "background": "white"},
+    "21": {"letter": "", "background": "white"},
+    "22": {"letter": "", "background": "white"},
+    "23": {"letter": "", "background": "white"},
+    "24": {"letter": "", "background": "white"},
+};
 
 function tile_click(element, i) {
     if (location_hist.length == 0 && element.style.backgroundColor != "rgb(48, 219, 100)") {
@@ -47,6 +80,7 @@ function tile_click(element, i) {
             };
         };
     };
+    update_board();
 };
 
 var dice = ["AAAFRS","AAEEEE","AAFIRS","ADENNN","AEEEEM","AEEGMU","AEGMNN","AFIRSY","BJKQXZ","CCENST","CEIILT","CEILPT","CEIPST","DDHNOT","DHHLOR","DHLNOR","DHLNOR","EIIITT","EMOTTT","ENSSSU","FIPRSY","GORRVW","IPRRRY","NOOTUW","OOOTTU"];
@@ -56,6 +90,7 @@ for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
     let random = Math.ceil(Math.random() * 6);
     let random_letter = dice[i].substring(random - 1, random)
     document.getElementsByTagName("td")[i].innerText = random_letter;
+    document.getElementsByTagName("td")[i].style = "background-color: white;";
     
     // check if element is clicked
     document.getElementsByTagName("td")[i].addEventListener("click", tile_click.bind(null, document.getElementsByTagName("td")[i], i), false);
@@ -68,7 +103,7 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
         clickable = false;
 
         for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
-            if (document.getElementsByTagName("td")[i].innerText != board[i]) {
+            if (document.getElementsByTagName("td")[i].innerText != board[i]['letter'] || document.getElementsByTagName("td")[i].style.backgroundColor != board[i]['background']) {
                 document.getElementsByClassName("board")[0].style.visibility = "hidden";
                 document.getElementsByClassName("cheating")[0].style.visibility = "visible";
                 setTimeout(function(){ location.reload(); }, 5000);
@@ -95,6 +130,7 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
         };
         location_hist = [];
         current_word = "";
+        update_board();
         setTimeout(function(){ elements_selected = []; clickable = true; }, 200);
     };
 });
@@ -103,9 +139,16 @@ document.getElementsByClassName("btn-reset")[0].addEventListener("click", functi
     location.reload();
 });
 
+document.getElementsByClassName("btn-play")[0].addEventListener("click", function() {
+    document.getElementsByClassName("introduction")[0].style.visibility = "hidden";
+    document.getElementsByClassName("btn-play")[0].style.visibility = "hidden";
+    document.getElementsByClassName("board")[0].style.visibility = "visible";
+});
+
 for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
-    board.push(document.getElementsByTagName("td")[i].innerText);
+    board[i]['letter'] = document.getElementsByTagName("td")[i].innerText;
+    board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
 };
 
-console.log(word_list.length);
+console.log("Loaded " + word_list.length + " words");
 console.log("Loaded index.js");
