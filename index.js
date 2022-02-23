@@ -94,7 +94,7 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
     };
     location_hist = [];
     current_word = "";
-    setTimeout(function(){ elements_selected = []; }, 250);
+    setTimeout(function(){ elements_selected = []; }, 200);
 });
 
 document.getElementsByClassName("btn-reset")[0].addEventListener("click", function() {
