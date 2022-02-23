@@ -36,6 +36,7 @@ function tile_click(element, i) {
         if (element.style.backgroundColor == "rgb(49, 165, 247)") {
             element.style.backgroundColor = "white";
             location_hist.pop();
+            current_word = current_word.substring(0, current_word.length - 1);
         } else {
             element.style.backgroundColor = "rgb(49, 165, 247)";
             location_hist.push(currnet_location);
