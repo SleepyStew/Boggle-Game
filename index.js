@@ -105,4 +105,6 @@ document.getElementsByClassName("btn-reset")[0].addEventListener("click", functi
     location.reload();
 });
 
+console.log(word_list)
+
 console.log("Loaded index.js");
