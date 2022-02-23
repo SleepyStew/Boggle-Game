@@ -48,6 +48,9 @@ var board = {
 function tile_click(element, i) {
 
     for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
+        console.log(i);
+        console.log(document.getElementsByTagName("td")[i].innerText);
+        console.log(board[i]['letter']);
         if (document.getElementsByTagName("td")[i].innerText != board[i]['letter'] || document.getElementsByTagName("td")[i].style.backgroundColor != board[i]['background']) {
             document.getElementsByClassName("cheating")[0].style.visibility = "visible";
             document.getElementsByClassName("board")[0].style.visibility = "hidden";
@@ -121,8 +124,7 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
         };
         location_hist = [];
         current_word = "";
-        update_board();
-        setTimeout(function(){ elements_selected = []; clickable = true; }, 200);
+        setTimeout(function(){ elements_selected = []; clickable = true; update_board(); }, 200);
     };
 });
 
