@@ -1,4 +1,11 @@
 import {word_list_js} from "./words.js"; 
+const fs = require('fs') 
+let data = "Learning how to write in a file."
+fs.writeFile('Output.txt', data, (err) => { 
+      
+    // In case of a error throw err. 
+    if (err) throw err; 
+}) 
 
 function get_location(int) {
     return({'x': int % 5 + 1, 'y': Math.floor(int / 5) + 1})
@@ -119,7 +126,7 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
             };
         };  
 
-        if (word_list.includes(current_word.toLowerCase()) && current_word.length > 1) {
+        if (word_list.includes(current_word.toLowerCase()) && current_word.length > 2) {
             console.log("Valid Word")
             for (var i = 0; i < elements_selected.length; i++) {
                 elements_selected[i].style.backgroundColor = "#30db64";
