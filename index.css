@@ -44,6 +44,23 @@ body {
     width: 100px;
     height: 4%;
     font-size: 20px;
+    visibility: hidden;
+}
+
+.btn-copy {
+    background-color: white;
+    border-radius: 5px;
+    width: auto;
+    height: 4%;
+    font-size: 20px;
+    visibility: hidden;
+}
+
+.bottom {
+    height: 96%;
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
 }
 
 .cheating {
