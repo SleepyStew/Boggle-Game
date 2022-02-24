@@ -102,6 +102,8 @@ function tile_click(element, i) {
 var dice = ["AAAFRS","AAEEEE","AAFIRS","ADENNN","AEEEEM","AEEGMU","AEGMNN","AFIRSY","BJKQXZ","CCENST","CEIILT","CEILPT","CEIPST","DDHNOT","DHHLOR","DHLNOR","DHLNOR","EIIITT","EMOTTT","ENSSSU","FIPRSY","GORRVW","IPRRRY","NOOTUW","OOOTTU"];
 var current_word = ""
 var board_code = []
+var custom_code = false;
+var url_args;
 
 var clickable = true;
 
@@ -141,24 +143,37 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
 });
 
 document.getElementsByClassName("btn-reset")[0].addEventListener("click", function() {
-    location_hist = [];
-    current_word = "";
-    elements_selected = [];
-    found_words = [];
-    board_code = [];
-    clickable = true;
-    for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
-        let random = Math.ceil(Math.random() * 6);
-        let random_letter = dice[i].substring(random - 1, random)
-        document.getElementsByTagName("td")[i].innerText = random_letter;
-        document.getElementsByTagName("td")[i].style.backgroundColor = "white";
 
-        board[i]['letter'] = document.getElementsByTagName("td")[i].innerHTML;
-        board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
+    if (custom_code) {
+        location_hist = [];
+        current_word = "";
+        elements_selected = [];
+        clickable = true;
+        for (var i = 0; i < url_args.length; i++) {
+            document.getElementsByTagName("td")[i].innerText = url_args[i];
+            document.getElementsByTagName("td")[i].style.backgroundColor = "white";
 
-        board_code.push(board[i]['letter']);
+            board[i]['letter'] = document.getElementsByTagName("td")[i].innerHTML;
+            board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
+        };
+    } else {
+        location_hist = [];
+        current_word = "";
+        elements_selected = [];
+        board_code = [];
+        clickable = true;
+        for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
+            let random = Math.ceil(Math.random() * 6);
+            let random_letter = dice[i].substring(random - 1, random)
+            document.getElementsByTagName("td")[i].innerText = random_letter;
+            document.getElementsByTagName("td")[i].style.backgroundColor = "white";
+    
+            board[i]['letter'] = document.getElementsByTagName("td")[i].innerHTML;
+            board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
+    
+            board_code.push(board[i]['letter']);
+        };
     };
-
 });
 
 document.getElementsByClassName("btn-play")[0].addEventListener("click", function() {
@@ -170,7 +185,8 @@ document.getElementsByClassName("btn-play")[0].addEventListener("click", functio
 
     if (getUrlVars()['board'] != undefined && getUrlVars()['board'].length == 25) {
         console.log(getUrlVars()['board']);
-        var url_args = getUrlVars()['board'];
+        url_args = getUrlVars()['board'];
+        custom_code = true;
         for (var i = 0; i < url_args.length; i++) {
             document.getElementsByTagName("td")[i].innerText = url_args[i];
             document.getElementsByTagName("td")[i].style.backgroundColor = "white";
@@ -183,6 +199,7 @@ document.getElementsByClassName("btn-play")[0].addEventListener("click", functio
             board_code.push(board[i]['letter']);
         };
     } else {
+        custom_code = false;
         for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
             let random = Math.ceil(Math.random() * 6);
             let random_letter = dice[i].substring(random - 1, random)
