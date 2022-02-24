@@ -1,11 +1,4 @@
 import {word_list_js} from "./words.js"; 
-const fs = require('fs') 
-let data = "Learning how to write in a file."
-fs.writeFile('Output.txt', data, (err) => { 
-      
-    // In case of a error throw err. 
-    if (err) throw err; 
-}) 
 
 function get_location(int) {
     return({'x': int % 5 + 1, 'y': Math.floor(int / 5) + 1})
