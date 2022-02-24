@@ -23,7 +23,6 @@ var currnet_location;
 var elements_selected = [];
 var location_hist = [];
 var word_list = word_list_js.split(" ");
-var found_words = [];
 const correct_sound = new Audio('correct.mp3');
 var board = {
     "0": {"letter": "", "background": "white"},
@@ -118,9 +117,8 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
             };
         };  
 
-        if (word_list.includes(current_word.toLowerCase()) && !found_words.includes(current_word.toLowerCase()) && current_word.length > 1) {
+        if (word_list.includes(current_word.toLowerCase()) && current_word.length > 1) {
             console.log("Valid Word")
-            found_words.push(current_word.toLowerCase());
             for (var i = 0; i < elements_selected.length; i++) {
                 elements_selected[i].style.backgroundColor = "#30db64";
             };
