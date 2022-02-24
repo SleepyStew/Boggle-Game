@@ -19,6 +19,10 @@ function getUrlVars() {
     return vars;
 };
 
+function shuffle(array) {
+    array.sort(() => Math.random() - 0.5);
+};
+
 var currnet_location;
 var elements_selected = [];
 var location_hist = [];
@@ -162,6 +166,7 @@ document.getElementsByClassName("btn-reset")[0].addEventListener("click", functi
         elements_selected = [];
         board_code = [];
         clickable = true;
+        shuffle(dice);
         for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
             let random = Math.ceil(Math.random() * 6);
             let random_letter = dice[i].substring(random - 1, random)
