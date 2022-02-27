@@ -19,6 +19,28 @@ function getUrlVars() {
     return vars;
 };
 
+var m_w = 123456789;
+var m_z = 987654321;
+var mask = 0xffffffff;
+
+function seed(i) {
+    m_w = (123456789 + i) & mask;
+    m_z = (987654321 - i) & mask;
+}
+
+function random() {
+    m_z = (36969 * (m_z & 65535) + (m_z >> 16)) & mask;
+    m_w = (18000 * (m_w & 65535) + (m_w >> 16)) & mask;
+    var result = ((m_z << 16) + (m_w & 65535)) >>> 0;
+    result /= 4294967296;
+    return result;
+}
+
+function shuffle(array) {
+    let shuffle_int = random();
+    array.sort(() => shuffle_int - 0.5);
+};
+
 var currnet_location;
 var elements_selected = [];
 var location_hist = [];
@@ -101,15 +123,15 @@ function tile_click(element, i) {
 
 var dice = ["AAAFRS","AAEEEE","AAFIRS","ADENNN","AEEEEM","AEEGMU","AEGMNN","AFIRSY","BJKQXZ","CCENST","CEIILT","CEILPT","CEIPST","DDHNOT","DHHLOR","DHLNOR","DHLNOR","EIIITT","EMOTTT","ENSSSU","FIPRSY","GORRVW","IPRRRY","NOOTUW","OOOTTU"];
 var current_word = ""
-var board_code = []
 var custom_code = false;
 var url_args;
+var random_seed;
 
 var clickable = true;
 
 document.getElementsByClassName("btn-check")[0].addEventListener("click", function() {
     if (clickable == true) {
-        clickable = false;     
+        clickable = false; 
 
         for (var cheati = 0; cheati < document.getElementsByTagName("td").length; cheati++) {
             if (document.getElementsByTagName("td")[cheati].innerText != board[cheati]['letter'] || document.getElementsByTagName("td")[cheati].style.backgroundColor != board[cheati]['background']) {
@@ -143,36 +165,31 @@ document.getElementsByClassName("btn-check")[0].addEventListener("click", functi
 });
 
 document.getElementsByClassName("btn-reset")[0].addEventListener("click", function() {
-
-    if (custom_code) {
-        location_hist = [];
-        current_word = "";
-        elements_selected = [];
-        clickable = true;
-        for (var i = 0; i < url_args.length; i++) {
-            document.getElementsByTagName("td")[i].innerText = url_args[i];
-            document.getElementsByTagName("td")[i].style.backgroundColor = "white";
-
-            board[i]['letter'] = document.getElementsByTagName("td")[i].innerHTML;
-            board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
-        };
+    location_hist = [];
+    current_word = "";
+    elements_selected = [];
+    clickable = true;
+    dice = ["AAAFRS","AAEEEE","AAFIRS","ADENNN","AEEEEM","AEEGMU","AEGMNN","AFIRSY","BJKQXZ","CCENST","CEIILT","CEILPT","CEIPST","DDHNOT","DHHLOR","DHLNOR","DHLNOR","EIIITT","EMOTTT","ENSSSU","FIPRSY","GORRVW","IPRRRY","NOOTUW","OOOTTU"];
+    if (getUrlVars()['board'] != undefined) {
+        console.log("Custom Board");
+        console.log(getUrlVars()['board']);
+        url_args = getUrlVars()['board'];
+        random_seed = url_args;
+        seed(random_seed);
     } else {
-        location_hist = [];
-        current_word = "";
-        elements_selected = [];
-        board_code = [];
-        clickable = true;
-        for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
-            let random = Math.ceil(Math.random() * 6);
-            let random_letter = dice[i].substring(random - 1, random)
-            document.getElementsByTagName("td")[i].innerText = random_letter;
-            document.getElementsByTagName("td")[i].style.backgroundColor = "white";
-    
-            board[i]['letter'] = document.getElementsByTagName("td")[i].innerHTML;
-            board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
-    
-            board_code.push(board[i]['letter']);
-        };
+        random_seed = Math.ceil(Math.random() * 10000000);
+        seed(random_seed);
+        console.log(random_seed);
+    }
+    shuffle(dice);
+    for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
+        let random_int = Math.ceil(random() * 6);
+        let random_letter = dice[i].substring(random_int - 1, random_int)
+        document.getElementsByTagName("td")[i].innerText = random_letter;
+        document.getElementsByTagName("td")[i].style.backgroundColor = "white";
+
+        board[i]['letter'] = document.getElementsByTagName("td")[i].innerHTML;
+        board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
     };
 });
 
@@ -183,44 +200,36 @@ document.getElementsByClassName("btn-play")[0].addEventListener("click", functio
     document.getElementsByClassName("btn-reset")[0].style.visibility = "visible";
     document.getElementsByClassName("btn-copy")[0].style.visibility = "visible";
 
-    if (getUrlVars()['board'] != undefined && getUrlVars()['board'].length == 25) {
+    if (getUrlVars()['board'] != undefined) {
+        console.log("Custom Board");
         console.log(getUrlVars()['board']);
         url_args = getUrlVars()['board'];
-        custom_code = true;
-        for (var i = 0; i < url_args.length; i++) {
-            document.getElementsByTagName("td")[i].innerText = url_args[i];
-            document.getElementsByTagName("td")[i].style.backgroundColor = "white";
-
-            document.getElementsByTagName("td")[i].addEventListener("click", tile_click.bind(null, document.getElementsByTagName("td")[i], i), false);
-
-            board[i]['letter'] = document.getElementsByTagName("td")[i].innerHTML;
-            board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
-            
-            board_code.push(board[i]['letter']);
-        };
+        random_seed = url_args;
+        seed(random_seed);
     } else {
-        custom_code = false;
-        for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
-            let random = Math.ceil(Math.random() * 6);
-            let random_letter = dice[i].substring(random - 1, random)
-            document.getElementsByTagName("td")[i].innerText = random_letter;
-            document.getElementsByTagName("td")[i].style.backgroundColor = "white";
-            
-            // check if element is clicked
-            document.getElementsByTagName("td")[i].addEventListener("click", tile_click.bind(null, document.getElementsByTagName("td")[i], i), false);
-    
-            board[i]['letter'] = document.getElementsByTagName("td")[i].innerHTML;
-            board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
-            
-            board_code.push(board[i]['letter']);
-        };
+        random_seed = Math.ceil(Math.random() * 10000000);
+        seed(random_seed);
+        console.log(random_seed);
+    }
+    shuffle(dice);
+    for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
+        let random_int = Math.ceil(random() * 6);
+        let random_letter = dice[i].substring(random_int - 1, random_int)
+        document.getElementsByTagName("td")[i].innerText = random_letter;
+        document.getElementsByTagName("td")[i].style.backgroundColor = "white";
+        
+        // check if element is clicked
+        document.getElementsByTagName("td")[i].addEventListener("click", tile_click.bind(null, document.getElementsByTagName("td")[i], i), false);
+
+        board[i]['letter'] = document.getElementsByTagName("td")[i].innerHTML;
+        board[i]['background'] = document.getElementsByTagName("td")[i].style.backgroundColor;
     };
 });
 
 
 document.getElementsByClassName("btn-copy")[0].addEventListener("click", function() {
-    console.log(window.location.origin + "?board=" + board_code.join(""));
-    navigator.clipboard.writeText(window.location.origin + "?board=" + board_code.join(""));
+    console.log(window.location.origin + "?board=" + random_seed);
+    navigator.clipboard.writeText(window.location.origin + "?board=" + random_seed);
 });
 
 console.log("Loaded " + word_list.length + " words");
