@@ -4,8 +4,6 @@ function get_location(int) {
     return({'x': int % 5 + 1, 'y': Math.floor(int / 5) + 1})
 };
 
-test
-
 function update_board() {
     for (var i = 0; i < document.getElementsByTagName("td").length; i++) {
         board[i]['letter'] = document.getElementsByTagName("td")[i].innerText;
